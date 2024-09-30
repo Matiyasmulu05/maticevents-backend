@@ -4,15 +4,24 @@ const ProjectManagement = require('../models/ProjectManagement');
 
 // Create new Project Management record
 exports.createProjectManagement = async (req, res) => {
-  const { eventId, projectTimeline, financialPlanning, humanResourcePlanning, vendorSelection } = req.body;
+  console.log(req.body);
+  const { task, startTime, endTime, status, financialTask, financialBudget, hrTask, hrNumber,vendorTask, vendor } = req.body;
+ 
   try {
     const newProjectManagement = new ProjectManagement({
-      eventId,
-      projectTimeline,
-      financialPlanning,
-      humanResourcePlanning,
-      vendorSelection
+      task,
+      startTime,
+      endTime,
+      status,
+      financialTask,
+      financialBudget,
+      hrTask,
+      hrNumber,
+      vendorTask,
+      vendor
     });
+    
+    console.log(newProjectManagement);
     await newProjectManagement.save();
     res.status(201).json(newProjectManagement);
   } catch (error) {

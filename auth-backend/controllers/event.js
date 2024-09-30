@@ -3,6 +3,7 @@ const Event = require('../models/Event');
 // Create a new event
 exports.createEvent = async (req, res) => {
   const { description, when, where, budget, setupType, brandingType } = req.body;
+  console.log(req.body);
   try {
     const newEvent = new Event({ description, when, where, budget, setupType, brandingType });
     await newEvent.save();

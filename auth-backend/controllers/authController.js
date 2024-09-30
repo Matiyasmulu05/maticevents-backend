@@ -16,11 +16,11 @@ exports.registerUser = async (req, res) => {
     await user.save();
 
     // Send verification email
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
-    nodemailer.sendEmail(email, 'Verify your email', `Click the link to verify: ${verificationLink}`);
+    // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    //const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
+    //nodemailer.sendEmail(email, 'Verify your email', `Click the link to verify: ${verificationLink}`);
 
-    res.json({ msg: 'User registered, please verify your email.' });
+    //res.json({ msg: 'User registered, please verify your email.' });
   } catch (error) {
     console.error(error);
     res.status(500).send('Server Error');
@@ -30,9 +30,13 @@ exports.registerUser = async (req, res) => {
 // Login user
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
+  console.log("Email:",email,"\nPassword:", password);
+  
   try {
+
     const user = await User.findOne({ email });
     if (!user || !bcrypt.compareSync(password, user.password)) {
+
       return res.status(400).json({ msg: 'Invalid credentials' });
     }
     if (!user.isVerified) {
